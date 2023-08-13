@@ -9,13 +9,13 @@
  * 
  */
 
-#version 150
+#version 300 es
 
 out vec4 out_frag;
 
-uniform float e1 = 1.0;
-uniform float e2 = 1.0;
-uniform float mult = 1.0;
+uniform float e1;
+uniform float e2;
+uniform float mult;
 uniform vec2  wh_rcp;
 
 void main(){

@@ -11,7 +11,9 @@
 
 package com.thomasdiewald.pixelflow.java.dwgl;
 
+import android.opengl.GLES20;
 import android.opengl.GLES30;
+import android.util.Log;
 
 import java.io.File;
 import java.nio.ByteBuffer;
@@ -46,7 +48,7 @@ public class DwGLSLShader{
     this.type = type;
     this.path = path;
     
-    if(type == GLES3Impl.GL_VERTEX_SHADER && path == null || path.length() == 0){
+    if(type == GLES30.GL_VERTEX_SHADER && path == null || path.length() == 0){
       this.content = createDefaultVertexShader();
       this.path = "fullscreenquad.vert";
     } else {
@@ -61,7 +63,7 @@ public class DwGLSLShader{
   private static String[] createDefaultVertexShader(){
     String[]content = {
            " "
-          ,"#version 150"
+          ,"#version 300 es"
           ,""
           ,"precision mediump float;" // TODO
           ,"precision mediump int;"   // TODO
@@ -96,6 +98,7 @@ public class DwGLSLShader{
       System.out.println("DwGLSLShader ERROR: "+type_str+" ("+path+") - GLSLDefine \""+name+"\" does not exist");
       return;
     }
+    Log.d("heyibin" ,"DwGLSLShader define:" + define);
     define.setValue(value);
   }
 
@@ -210,19 +213,29 @@ public class DwGLSLShader{
 
   public boolean build() {
     if(flag_rebuild || HANDLE == 0){
-      
+
       // apply defines
       Set<String> keys = glsl_defines.keySet();
+      StringBuilder builder = new StringBuilder();
       for(String key : keys ){
         GLSLDefine def = glsl_defines.get(key);
         content[def.line] = def.get() + DwUtils.NL;
+//        builder.append(content[def.line]);
       }
-      
+      for(int i = 0;i < content.length;i++){
+        builder.append(content[i]);
+      }
+
+      String source = builder.toString();
+      Log.d("heyibin","sourceStr 是：" + source);
       if(HANDLE == 0) HANDLE  = GLES30.glCreateShader(type);
 
-//      GLES30.glShaderSource(HANDLE, content.length, content, (int[]) null, 0);
-      GLES30.glShaderSource(HANDLE, String.valueOf(content));
+      GLES30.glShaderSource(HANDLE, source);
       GLES30.glCompileShader(HANDLE);
+
+      String s = GLES30.glGetShaderInfoLog(HANDLE);
+
+     Log.d("heyibin","检查shader状态：" + s);
       
       flag_rebuild = false;
       DwGLSLShader.getShaderInfoLog ( HANDLE, type_str+" ("+path+")");

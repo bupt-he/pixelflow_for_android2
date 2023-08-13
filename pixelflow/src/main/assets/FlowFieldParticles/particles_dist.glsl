@@ -10,7 +10,7 @@
  */
 
 
-#version 150
+#version 300 es
 
 #define SHADER_VERT 0
 #define SHADER_FRAG 0

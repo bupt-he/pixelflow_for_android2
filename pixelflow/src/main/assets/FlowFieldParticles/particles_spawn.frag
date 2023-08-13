@@ -10,7 +10,7 @@
  */
 
 
-#version 150 
+#version 300 es
 
 
 #define TWO_PI 6.2831855
@@ -73,10 +73,11 @@ void main(){
 #elif SPAWN_RECT
 
     int idx = particle_idx - lo_hi.x;
-    int row = idx / spawn.num.x;
-    int col = idx - spawn.num.x * row;
-    vec2 pos = spawn.dim * vec2(col + 0.5, row + 0.5) / vec2(spawn.num);
-    
+    int  row = idx / spawn.num.x;
+    int  col = idx - spawn.num.x * row;
+//    vec2 pos = spawn.dim * vec2(col + 0.5, row + 0.5) / vec2(spawn.num);
+    vec2 pos = spawn.dim * vec2(col, row) / vec2(spawn.num);
+
 #endif
 
     vec2 pos_cur = spawn.pos + pos;

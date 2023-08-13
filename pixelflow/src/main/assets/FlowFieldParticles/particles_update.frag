@@ -9,7 +9,7 @@
  * 
  */
 
-#version 150 
+#version 300 es
 
 #define UPDATE_VEL 0
 #define UPDATE_ACC 0
@@ -17,8 +17,8 @@
 out vec4 out_frag;
 
 uniform int   spawn_hi;
-uniform float acc_mult = 1.0;
-uniform float vel_mult = 1.0;
+uniform float acc_mult;
+uniform float vel_mult;
 uniform vec2  acc_minmax;
 uniform vec2  vel_minmax;
 uniform ivec2 wh_position;

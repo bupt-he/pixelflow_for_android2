@@ -14,6 +14,8 @@ package com.thomasdiewald.pixelflow.java.dwgl;
 
 
 import android.opengl.GLES30;
+import android.opengl.GLES32;
+import android.util.Log;
 
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
@@ -54,9 +56,10 @@ public class DwGLSLProgram {
   public DwGLSLProgram(DwPixelFlow context, String vert_path, String frag_path) {
     this.context = context;
     
-    this.vert = new DwGLSLShader(context, GLES3Impl.GL_VERTEX_SHADER  , vert_path);
-    this.frag = new DwGLSLShader(context, GLES3Impl.GL_FRAGMENT_SHADER, frag_path);
+    this.vert = new DwGLSLShader(context, GLES30.GL_VERTEX_SHADER  , vert_path);
+    this.frag = new DwGLSLShader(context, GLES30.GL_FRAGMENT_SHADER, frag_path);
     this.name = vert.path+"/"+frag.path;
+    Log.d("heyibin","DwGLSLProgram 构造name:" + this.name);
   }
 
   public void release(){
@@ -72,7 +75,6 @@ public class DwGLSLProgram {
   
   public DwGLSLProgram build() {
     if((build(vert) | build(geom) | build(frag)) || (HANDLE == 0)){
-
       if(HANDLE == 0){
         HANDLE = GLES30.glCreateProgram();
       } else {
@@ -85,11 +87,18 @@ public class DwGLSLProgram {
       if(geom != null) GLES30.glAttachShader(HANDLE, geom.HANDLE);  DwGLError.debug( "DwGLSLProgram.build 2");
       if(frag != null) GLES30.glAttachShader(HANDLE, frag.HANDLE);  DwGLError.debug( "DwGLSLProgram.build 3");
 
+      //链接相应程序
       GLES30.glLinkProgram(HANDLE);
+      //验证程序
+      GLES30.glValidateProgram(HANDLE);
 
-  //    GLES3Impl.glValidateProgram(HANDLE);
-      DwGLSLProgram.getProgramValidateStatus( HANDLE);
+      String s = GLES30.glGetProgramInfoLog(HANDLE);
+      Log.d("heyibin","program build: 构建信息为：" + s);
+
+
+      DwGLSLProgram.getProgramValidateStatus(HANDLE);
       DwGLSLProgram.getProgramInfoLog( HANDLE, ">> PROGRAM_INFOLOG: "+name+":\n");
+
 
       DwGLError.debug( "DwGLSLProgram.build");
 

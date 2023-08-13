@@ -10,7 +10,7 @@
  */
 
 
-#version 150
+#version 300 es
 
 
 #define SHADER_VERT 0
@@ -18,7 +18,7 @@
 
 uniform ivec2     wh_position;
 uniform vec2      wh_viewport;
-uniform float     shader_collision_mult = 1.0;
+uniform float     shader_collision_mult;
 uniform sampler2D tex_collision;
 uniform sampler2D tex_position;
 uniform vec4      col_A = vec4(1, 1, 1, 1.0);

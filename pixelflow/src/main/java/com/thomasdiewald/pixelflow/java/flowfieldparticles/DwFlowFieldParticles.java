@@ -14,6 +14,7 @@ package com.thomasdiewald.pixelflow.java.flowfieldparticles;
 
 
 import android.opengl.GLES30;
+import android.util.Log;
 
 import com.thomasdiewald.pixelflow.java.DwPixelFlow;
 import com.thomasdiewald.pixelflow.java.dwgl.DwGLSLProgram;
@@ -225,7 +226,9 @@ public class DwFlowFieldParticles{
     context.begin();
     param.tex_sprite.resize(context, GLES3Impl.GL_RGBA8, size, size, GLES3Impl.GL_RGBA, GLES3Impl.GL_UNSIGNED_BYTE, GLES3Impl.GL_LINEAR, 1, 4);
     context.beginDraw(param.tex_sprite);
+    Log.d("heyibin","11111111111111111111");
     shader_create_sprite.begin();
+    Log.d("heyibin","createSpriteTexture::glgetError" + GLES30.glGetError());
     shader_create_sprite.uniform2f("wh_rcp", 1f/size, 1f/size);
     shader_create_sprite.uniform1f("e1"    , e1);
     shader_create_sprite.uniform1f("e2"    , e2);
@@ -465,6 +468,7 @@ public class DwFlowFieldParticles{
     
     context.begin();
     context.beginDraw(tex_particle.dst);
+    Log.d("heyibin","22222222222222222222");
     shader_spawn_radial.begin();
     shader_spawn_radial.uniform1i     ("spawn.num"      , type.num);
     shader_spawn_radial.uniform2f     ("spawn.pos"      , type.pos[0], type.pos[1]);
@@ -514,6 +518,7 @@ public class DwFlowFieldParticles{
     
     context.begin();
     context.beginDraw(tex_particle.dst);
+    Log.d("heyibin","333333333");
     shader_spawn_rect.begin();
     shader_spawn_rect.uniform2i     ("spawn.num"      , type.num[0], type.num[1]);
     shader_spawn_rect.uniform2f     ("spawn.pos"      , type.pos[0], type.pos[1]);
@@ -581,8 +586,13 @@ public class DwFlowFieldParticles{
     int h_particle = tex_particle.src.h;
     int point_size = param.size_display;
     blendMode();
+    Log.d("heyibin","displayParticles blendMode::" + GLES30.glGetError());
+
     shader_display_particles.frag.setDefine("SHADING_TYPE", param.shader_type);
+    Log.d("heyibin","444444444444444");
     shader_display_particles.begin();
+
+
     shader_display_particles.uniform1f     ("shader_collision_mult", param.shader_collision_mult);
     shader_display_particles.uniform1f     ("point_size"   , point_size);
     shader_display_particles.uniform2i     ("wh_position"  , w_particle, h_particle);
@@ -602,6 +612,7 @@ public class DwFlowFieldParticles{
     int w_particle = tex_particle.src.w;
     int h_particle = tex_particle.src.h;
     blendMode();
+    Log.d("heyibin","5555555555");
     shader_display_trails.begin();
     shader_display_trails.uniform1f     ("shader_collision_mult", param.shader_collision_mult);
     shader_display_trails.uniform2i     ("wh_position"  , w_particle, h_particle);
@@ -635,6 +646,7 @@ public class DwFlowFieldParticles{
       GLES30.glEnable(GLES3Impl.GL_BLEND);
       GLES30.glBlendEquation(GLES3Impl.GL_FUNC_ADD);
       GLES30.glBlendFunc(GLES3Impl.GL_SRC_COLOR, GLES3Impl.GL_ONE); // ADD
+      Log.d("heyibin","10101101010101010");
       shader_particles_dist.begin();
       shader_particles_dist.uniform1f     ("point_size"  , point_size);
       shader_particles_dist.uniform2i     ("wh_position" , w_particle, h_particle);
@@ -675,6 +687,7 @@ public class DwFlowFieldParticles{
       GLES30.glEnable(GLES3Impl.GL_BLEND);
       GLES30.glBlendEquation(GLES3Impl.GL_FUNC_ADD);
       GLES30.glBlendFunc(GLES3Impl.GL_SRC_COLOR, GLES3Impl.GL_ONE); // ADD
+      Log.d("heyibin","66666666666666666666666");
       shader_particles_dist.begin();
       shader_particles_dist.uniform1f     ("point_size"  , point_size);
       shader_particles_dist.uniform2i     ("wh_position" , w_particle, h_particle);
@@ -716,6 +729,7 @@ public class DwFlowFieldParticles{
     {
       // 1) create FG mask
       context.beginDraw(tex_obs_FG);
+      Log.d("heyibin","777777777777777777777");
       shader_obstacles_FG.begin();
       shader_obstacles_FG.uniform4fv    ("FG_mask"  , 1, FG_mask);
       shader_obstacles_FG.uniform1i     ("FG_invert", FG_invert ? 1 : 0);
@@ -731,6 +745,7 @@ public class DwFlowFieldParticles{
       
       // 3) create distance field
       context.beginDraw(tex_obs_dist);
+      Log.d("heyibin","12121212121212121212");
       shader_obstacles_dist.begin();
       shader_obstacles_dist.uniform2f     ("mad"     , 1, FG_offset);
       shader_obstacles_dist.uniformTexture("tex_FG"  , tex_obs_FG);
@@ -765,6 +780,7 @@ public class DwFlowFieldParticles{
     
     context.begin();
     context.beginDraw(tex_particle.dst);
+    Log.d("heyibin","8888888888888888888");
     shader_update_acc.begin();
     shader_update_acc.uniform1i     ("spawn_hi"       , spawn_num);
     shader_update_acc.uniform2f     ("acc_minmax"     , acc_min, acc_max);
@@ -802,6 +818,7 @@ public class DwFlowFieldParticles{
     
     context.begin();
     context.beginDraw(tex_particle.dst);
+    Log.d("heyibin","999999999999999999999999999");
     shader_update_vel.begin();
     shader_update_vel.uniform1i     ("spawn_hi"       , spawn_num);
     shader_update_vel.uniform2f     ("vel_minmax"     , vel_min, vel_max);
@@ -860,9 +877,9 @@ public class DwFlowFieldParticles{
     GLES30.glEnable(GLES3Impl.GL_BLEND);
     GLES30.glBlendEquation(GLES3Impl.GL_FUNC_ADD);
     switch(param.blend_mode){
-      case 0:  GLES30.glBlendFuncSeparate(GLES3Impl.GL_SRC_ALPHA, GLES3Impl.GL_ONE_MINUS_SRC_ALPHA, GLES3Impl.GL_ONE, GLES3Impl.GL_ONE); break; // BLEND
-      case 1:  GLES30.glBlendFuncSeparate(GLES3Impl.GL_SRC_ALPHA, GLES3Impl.GL_ONE                , GLES3Impl.GL_ONE, GLES3Impl.GL_ONE); break; // ADD
-      default: GLES30.glBlendFuncSeparate(GLES3Impl.GL_SRC_ALPHA, GLES3Impl.GL_ONE_MINUS_SRC_ALPHA, GLES3Impl.GL_ONE, GLES3Impl.GL_ONE); break; // BLEND
+      case 0:  GLES30.glBlendFuncSeparate(GLES30.GL_SRC_ALPHA, GLES30.GL_ONE_MINUS_SRC_ALPHA, GLES30.GL_ONE, GLES30.GL_ONE); break; // BLEND
+      case 1:  GLES30.glBlendFuncSeparate(GLES30.GL_SRC_ALPHA, GLES30.GL_ONE                , GLES30.GL_ONE, GLES30.GL_ONE); break; // ADD
+      default: GLES30.glBlendFuncSeparate(GLES30.GL_SRC_ALPHA, GLES30.GL_ONE_MINUS_SRC_ALPHA, GLES30.GL_ONE, GLES30.GL_ONE); break; // BLEND
     }
   }
 

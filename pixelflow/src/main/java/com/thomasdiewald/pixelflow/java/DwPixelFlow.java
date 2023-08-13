@@ -15,6 +15,7 @@ package com.thomasdiewald.pixelflow.java;
 
 
 import android.opengl.GLES30;
+import android.opengl.GLES32;
 import android.os.Build;
 
 import androidx.annotation.RequiresApi;
@@ -299,15 +300,15 @@ public class DwPixelFlow{
     public void set(DwPixelFlow context, int x, int y, int w, int h) {
 
       // TODO: 2023/8/6 需要解开
-//      GLES30.glViewport(x, y, w, h);
+      GLES30.glViewport(x, y, w, h);
       
-//      GLES30.glColorMask(true, true, true, true);
-//      GLES30.glDepthMask(false);
-//      GLES30.glDisable(GLES30.GL_DEPTH_TEST);
-//      GLES30.glDisable(GLES30.GL_SCISSOR_TEST);
-//      GLES30.glDisable(GLES30.GL_STENCIL_TEST);
-//      GLES30.glDisable(GLES30.GL_BLEND);
-//      GLES30.glDisable(GLES30.GL_MULTISAMPLE);
+      GLES30.glColorMask(true, true, true, true);
+      GLES30.glDepthMask(false);
+      GLES30.glDisable(GLES30.GL_DEPTH_TEST);
+      GLES30.glDisable(GLES30.GL_SCISSOR_TEST);
+      GLES30.glDisable(GLES30.GL_STENCIL_TEST);
+      GLES30.glDisable(GLES30.GL_BLEND);
+//      GLES30.glDisable(GLES32.GL_MULTISAMPLE);
     }
   }
   

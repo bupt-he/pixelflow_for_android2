@@ -286,13 +286,13 @@ public class FlowFieldParticles_DamBreak extends PApplet {
     
     if(!DISPLAY_DIST && !DISPLAY_FLOW){
       // render obstacles and particles
-      pg_canvas.beginDraw(); 
+      pg_canvas.beginDraw();
       pg_canvas.background(255);
       pg_canvas.image(pg_obstacles, 0, 0);
       pg_canvas.endDraw();
       particles.displayParticles(pg_canvas);
     } else {
-      pg_canvas.beginDraw(); 
+      pg_canvas.beginDraw();
       pg_canvas.background(0);
       pg_canvas.endDraw();
     }
