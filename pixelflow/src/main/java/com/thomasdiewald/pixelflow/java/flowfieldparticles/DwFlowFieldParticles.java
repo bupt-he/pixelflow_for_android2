@@ -74,7 +74,7 @@ public class DwFlowFieldParticles{
     public float timestep = 1 / 120f;
     
     // particle size rendering/collision
-    public int   size_display   = 10;
+    public float   size_display   = 10.0f;
     public int   size_collision = 10;
     public int   size_cohesion  =  5;
     
@@ -544,7 +544,7 @@ public class DwFlowFieldParticles{
   
   
   public void displayParticles(PGraphicsOpenGL canvas){
-    if(param.size_display <= 0) return;
+    if(param.size_display <= 0f) return;
     context.begin();
     context.beginDraw(canvas);
     displayParticles(canvas.width, canvas.height);
@@ -553,7 +553,7 @@ public class DwFlowFieldParticles{
   }
   
   public void displayParticles(DwGLTexture canvas){
-    if(param.size_display <= 0) return;
+    if(param.size_display <= 0f) return;
     context.begin();
     context.beginDraw(canvas);
     displayParticles(canvas.w, canvas.h);
@@ -581,10 +581,10 @@ public class DwFlowFieldParticles{
   
   
   protected void displayParticles(int w_viewport, int h_viewport){
-    if(param.size_display <= 0) return;
+    if(param.size_display <= 0f) return;
     int w_particle = tex_particle.src.w;
     int h_particle = tex_particle.src.h;
-    int point_size = param.size_display;
+    float point_size = param.size_display;
     blendMode();
     Log.d("heyibin","displayParticles blendMode::" + GLES30.glGetError());
 
@@ -594,7 +594,8 @@ public class DwFlowFieldParticles{
 
 
     shader_display_particles.uniform1f     ("shader_collision_mult", param.shader_collision_mult);
-    shader_display_particles.uniform1f     ("point_size"   , point_size);
+    Log.d("heyibin","displayParticles::pointSize =" + Float.valueOf(point_size));
+    shader_display_particles.uniform1f     ("point_size"   ,5.0f);
     shader_display_particles.uniform2i     ("wh_position"  , w_particle, h_particle);
     shader_display_particles.uniform2f     ("wh_viewport"  , w_viewport, h_viewport);
     shader_display_particles.uniform4fv    ("col_A"        , 1, param.col_A);
@@ -634,7 +635,7 @@ public class DwFlowFieldParticles{
     int h_viewport = tex_col_dist.h;
     int w_particle = tex_particle.src.w;
     int h_particle = tex_particle.src.h;
-    int point_size = getCollisionSize();
+    float point_size = getCollisionSize() * 1.0f;
     
     context.begin();
     {
@@ -648,7 +649,9 @@ public class DwFlowFieldParticles{
       GLES30.glBlendFunc(GLES3Impl.GL_SRC_COLOR, GLES3Impl.GL_ONE); // ADD
       Log.d("heyibin","10101101010101010");
       shader_particles_dist.begin();
-      shader_particles_dist.uniform1f     ("point_size"  , point_size);
+      // TODO: 2023/8/14  需要进行处理 
+      Log.d("heyibin","createCollisionFlowField::pointSize =" + point_size);
+      shader_particles_dist.uniform1f     ("point_size"  , 5.0f);
       shader_particles_dist.uniform2i     ("wh_position" , w_particle, h_particle);
       shader_particles_dist.uniform2f     ("wh_viewport" , w_viewport, h_viewport);
       shader_particles_dist.uniformTexture("tex_position", tex_particle.src);
@@ -689,7 +692,8 @@ public class DwFlowFieldParticles{
       GLES30.glBlendFunc(GLES3Impl.GL_SRC_COLOR, GLES3Impl.GL_ONE); // ADD
       Log.d("heyibin","66666666666666666666666");
       shader_particles_dist.begin();
-      shader_particles_dist.uniform1f     ("point_size"  , point_size);
+      Log.d("heyibin","createCohesionFlowField::pointSize =" + Float.valueOf(point_size));
+      shader_particles_dist.uniform1f     ("point_size"  ,Float.valueOf(point_size) );
       shader_particles_dist.uniform2i     ("wh_position" , w_particle, h_particle);
       shader_particles_dist.uniform2f     ("wh_viewport" , w_viewport, h_viewport);
       shader_particles_dist.uniformTexture("tex_position", tex_particle.src);

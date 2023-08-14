@@ -25,7 +25,7 @@ void main(){
 
   out_distance = dist * FG * mad.x + mad.y;
   
-  out_distance = max(0, out_distance);
+  out_distance = max(0.0f, out_distance);
 }
 
 

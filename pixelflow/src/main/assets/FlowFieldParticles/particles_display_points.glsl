@@ -21,18 +21,21 @@
 uniform float     point_size;
 uniform ivec2     wh_position;
 uniform vec2      wh_viewport;
-uniform float     shader_collision_mult = 1.0;
+uniform float     shader_collision_mult;
 uniform sampler2D tex_collision;
 uniform sampler2D tex_position;
 uniform sampler2D tex_sprite;
-uniform vec4      col_A = vec4(1, 1, 1, 1.0);
-uniform vec4      col_B = vec4(0, 0, 0, 0.0);
+uniform vec4      col_A ;
+uniform vec4      col_B;
 
 #if SHADER_VERT
 
 out vec4 particle;
 
 void main(){
+//  shader_collision_mult = 1.0;
+//  col_A= vec4(1, 1, 1, 1.0);
+//  col_B = vec4(0, 0, 0, 0.0);
 
   // get point index / vertex index
   int point_id = gl_VertexID;
@@ -83,7 +86,7 @@ void main(){
   float mult = pressure + length(velocity) * 2.0;
   mult *= shader_collision_mult;
  
-  vec2 my_PointCoord = ((particle.xy * wh_viewport) - gl_FragCoord.xy) / point_size + 0.5;
+  vec2 my_PointCoord = ((particle.xy * wh_viewport) - gl_FragCoord.xy) /point_size + 0.5;
   float falloff = 1.0 - texture(tex_sprite, my_PointCoord.xy).a; // my_PointCoord ...gl_PointCoord
  
 #if (SHADING_TYPE == 0)

@@ -54,8 +54,8 @@ void main(){
   coeff.xy *= coeff.yz;  
   
   for(int i = 1; i <= radius; i++){
-    blur += texture(tex, (gl_FragCoord.xy + dir * i) * wh_rcp) * coeff.x;
-    blur += texture(tex, (gl_FragCoord.xy - dir * i) * wh_rcp) * coeff.x;
+    blur += texture(tex, (gl_FragCoord.xy + dir * float(i)) * wh_rcp) * coeff.x;
+    blur += texture(tex, (gl_FragCoord.xy - dir * float(i)) * wh_rcp) * coeff.x;
     norm += coeff.x * 2.0;
     coeff.xy *= coeff.yz;  
   }

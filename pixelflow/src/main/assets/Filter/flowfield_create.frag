@@ -47,13 +47,13 @@ void main(){
   vec4 dh = vec4(0);
   vec4 dv = vec4(0);
   
-  dh += TL * +1;   dh += TR * -1;
-  dh +=  L * +2;   dh +=  R * -2;
-  dh += BL * +1;   dh += BR * -1;
+  dh += TL * +1.0;   dh += TR * -1.0;
+  dh +=  L * +2.0;   dh +=  R * -2.0;
+  dh += BL * +1.0;   dh += BR * -1.0;
   
-  dv += TL * +1;   dv += BL * -1;
-  dv += T  * +2;   dv += B  * -2;
-  dv += TR * +1;   dv += BR * -1;
+  dv += TL * +1.0;   dv += BL * -1.0;
+  dv += T  * +2.0;   dv += B  * -2.0;
+  dv += TR * +1.0;   dv += BR * -1.0;
   
   out_flow = vec2(dh.x, dv.x);
   

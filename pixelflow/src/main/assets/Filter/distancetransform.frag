@@ -35,10 +35,10 @@
 
 out ivec2 out_pos;
 uniform vec4 FG_mask;
-uniform int  FG_invert = 0; // 1 to invert mask
+uniform int  FG_invert; // 1 to invert mask
 uniform sampler2D	tex_mask;
 
-ivec2 pos = ivec2(gl_FragCoord.xy);
+ivec2 pos;
   
 int isFG(const in vec4 rgba){
   vec4 diff = rgba - FG_mask;
@@ -47,6 +47,8 @@ int isFG(const in vec4 rgba){
 }
 
 void main(){
+//  FG_invert = 0;
+  pos = ivec2(gl_FragCoord.xy);
   vec4 rgba = texelFetch(tex_mask, pos, 0);
 
   // bool mask = any(notEqual(texelFetch(tex_mask, pos, 0).rgb, vec3(0.0)));
@@ -83,9 +85,9 @@ uniform isampler2D tex_dtnn;
 uniform ivec3 jump;
 uniform ivec2 wh;
 
-ivec2 pos  = ivec2(gl_FragCoord.xy);
-ivec2 dtnn = ivec2(POS_MAX);
-int   dmin = LENGTH_SQ(dtnn);
+ivec2 pos;
+ivec2 dtnn;
+int   dmin;
 
 void DTNN(const in ivec2 off){
   ivec2 dtnn_cur = getDTNN(tex_dtnn, off);
@@ -98,6 +100,11 @@ void DTNN(const in ivec2 off){
 }
 
 void main(){
+
+   pos  = ivec2(gl_FragCoord.xy);
+   dtnn = ivec2(POS_MAX);
+     dmin = LENGTH_SQ(dtnn);
+
   dtnn = getDTNN(tex_dtnn, jump.yy);
   ivec2 ddxy = dtnn - pos;
   dmin = LENGTH_SQ(ddxy);

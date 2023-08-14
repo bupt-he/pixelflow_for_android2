@@ -8,13 +8,13 @@
  */
 
 
-#version 150
+#version 300 es
 
 out vec4 out_frag;
 
 uniform vec2 wh_rcp;
 
-vec2 posn = gl_FragCoord.xy * wh_rcp;
+vec2 posn;
 
 
 #define TEX_LAYERS 0 // set by application at compile time
@@ -27,6 +27,7 @@ vec2 posn = gl_FragCoord.xy * wh_rcp;
 uniform vec2      m0;
 uniform sampler2D t0;
 void main(){
+  posn = gl_FragCoord.xy * wh_rcp;
   out_frag = TM(t0,m0);   
 }
 
