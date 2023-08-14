@@ -17,8 +17,8 @@
 #define SHADER_FRAG 0
 
 #define SHADING_TYPE 0 // either 0 or 1 ...
-
-uniform float     point_size;
+precision mediump float;
+uniform float   point_size;
 uniform ivec2     wh_position;
 uniform vec2      wh_viewport;
 uniform float     shader_collision_mult;

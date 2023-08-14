@@ -595,7 +595,7 @@ public class DwFlowFieldParticles{
 
     shader_display_particles.uniform1f     ("shader_collision_mult", param.shader_collision_mult);
     Log.d("heyibin","displayParticles::pointSize =" + Float.valueOf(point_size));
-    shader_display_particles.uniform1f     ("point_size"   ,5.0f);
+    shader_display_particles.uniform1f     ("point_size"   ,point_size);
     shader_display_particles.uniform2i     ("wh_position"  , w_particle, h_particle);
     shader_display_particles.uniform2f     ("wh_viewport"  , w_viewport, h_viewport);
     shader_display_particles.uniform4fv    ("col_A"        , 1, param.col_A);
@@ -649,9 +649,9 @@ public class DwFlowFieldParticles{
       GLES30.glBlendFunc(GLES3Impl.GL_SRC_COLOR, GLES3Impl.GL_ONE); // ADD
       Log.d("heyibin","10101101010101010");
       shader_particles_dist.begin();
-      // TODO: 2023/8/14  需要进行处理 
+      // TODO: 2023/8/14  需要进行处理
       Log.d("heyibin","createCollisionFlowField::pointSize =" + point_size);
-      shader_particles_dist.uniform1f     ("point_size"  , 5.0f);
+      shader_particles_dist.uniform1f     ("point_size"  , point_size);
       shader_particles_dist.uniform2i     ("wh_position" , w_particle, h_particle);
       shader_particles_dist.uniform2f     ("wh_viewport" , w_viewport, h_viewport);
       shader_particles_dist.uniformTexture("tex_position", tex_particle.src);
@@ -678,7 +678,7 @@ public class DwFlowFieldParticles{
     int h_viewport = tex_coh_dist.h;
     int w_particle = tex_particle.src.w;
     int h_particle = tex_particle.src.h;
-    int point_size = getCohesionSize();
+    float point_size = getCohesionSize() * 1.0f;
 
     context.begin();
     {
@@ -693,7 +693,7 @@ public class DwFlowFieldParticles{
       Log.d("heyibin","66666666666666666666666");
       shader_particles_dist.begin();
       Log.d("heyibin","createCohesionFlowField::pointSize =" + Float.valueOf(point_size));
-      shader_particles_dist.uniform1f     ("point_size"  ,Float.valueOf(point_size) );
+      shader_particles_dist.uniform1f     ("point_size"  ,point_size);
       shader_particles_dist.uniform2i     ("wh_position" , w_particle, h_particle);
       shader_particles_dist.uniform2f     ("wh_viewport" , w_viewport, h_viewport);
       shader_particles_dist.uniformTexture("tex_position", tex_particle.src);

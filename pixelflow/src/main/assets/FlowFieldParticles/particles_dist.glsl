@@ -14,7 +14,7 @@
 
 #define SHADER_VERT 0
 #define SHADER_FRAG 0
-
+precision mediump float;
 uniform float     point_size;
 uniform ivec2     wh_position;
 uniform vec2      wh_viewport;
